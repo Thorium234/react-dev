@@ -1,163 +1,60 @@
-// import React, { useState } from 'react';
-//import './App.css';
-import './index.css';
+import { useState } from 'react';
+import { AuthProvider } from './context/AuthProvider';
+import { useAuth } from './hooks/useAuth';
+import Auth from './components/Auth';
+import Dashboard from './components/Dashboard';
+import Quiz from './components/Quiz';
+import Results from './components/Results';
+import './App.css';
 
-// function App() {
-//   const [count, setCount] = useState(0);
+function AppContent() {
+  const { user } = useAuth();
+  const [view, setView] = useState(null);
+  const [quizResult, setQuizResult] = useState(null);
 
-//   return (
-//     <div className="app-container">
-//       <h1>React Counter App</h1>
-//       <div className="counter-display">
-//         <h2>{count}</h2>
-//       </div>
-//       <div className="button-group">
-//         <button onClick={() => setCount(count - 1)}>Decrement</button>
-//         <button onClick={() => setCount(0)}>Reset</button>
-//         <button onClick={() => setCount(count + 1)}>Increment</button>
-//       </div>
-//     </div>
-//   );
-// }
+  if (!user) {
+    return <Auth />;
+  }
 
-// export default App;
+  const currentView = view || 'dashboard';
 
-// import React from 'react';
+  const handleStartQuiz = () => {
+    setView('quiz');
+    setQuizResult(null);
+  };
 
-// function HelloWorld() {
-//   return (
-//     <div>
-//       <h1>Hello, World!</h1>
-//       <p>Welcome to my first React application</p>
-//     </div>
-//   );
-// }
-// function HelloWorld() {
-//   const name = "React Beginner";
-//   const currentDate = new Date().toLocaleDateString();
-  
-//   return (
-//     <div>
-//       <h1>Hello, {name}!</h1>
-//       <p>Welcome to my first React application</p>
-//       <p>Today is {currentDate}</p>
-//     </div>
-//   );
-// }
+  const handleQuizComplete = (score, totalTime, totalQuestions) => {
+    setQuizResult({ score, totalTime, totalQuestions });
+    setView('results');
+  };
 
-// export default HelloWorld;
-// import { useState,useEffect } from 'react';
-// const Card = ({title}) =>{
-//   const[count, setCount]=useState(0);
-//   const [hasLiked, setHasLiked]=useState(false);
+  const handleRestart = () => {
+    setView('dashboard');
+    setQuizResult(null);
+  };
 
-//   useEffect(()=>{
-//     console.log(`User has ${hasLiked ? 'liked' : 'unliked'} the card: ${title}`);
-//   },[hasLiked,title])
+  if (currentView === 'quiz') {
+    return <Quiz onComplete={handleQuizComplete} />;
+  }
 
+  if (currentView === 'results' && quizResult) {
+    return (
+      <Results
+        score={quizResult.score}
+        totalQuestions={quizResult.totalQuestions}
+        totalTime={quizResult.totalTime}
+        onRestart={handleRestart}
+      />
+    );
+  }
 
-//   useEffect(()=>{
-//   console.log('cardRendered')
-// },[])
-
-//   return(
-//     <div className="card" onClick={()=> setCount(count+1)}>
-//       <h2>{title }<br />{count || null }</h2>
-//       <button onClick={()=> setHasLiked(!hasLiked)}>
-      
-//       {hasLiked ? 'Unlike' : 'Like'}
-//       </button>
-
-//     </div>
-//   )
-// }
-
-// const App=()=>{
-//   return(
-//     <div>
-//       <h1>functional arrow component</h1>
-//       <Card title="thorium234" />
-//       <Card title="thorium234" />
-//       <Card title="thorium234" />
-//       <Card title="thorium234" />
-//     </div>
-//   )
-// } 
-// export default App;
-
-/*import React from 'react'
-
-const App = () => {
-  return (
-    <div >
-      <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-    </div>
-  )
+  return <Dashboard onStart={handleStartQuiz} />;
 }
 
-export default App
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import StudentCard from './components/StudentCard';
-import Footer from './components/Footer';
-
-function App() {
+export default function App() {
   return (
-    <div className="app-container">
-      <Header />
-      
-      <div className="main-layout">
-        <Sidebar />
-        
-        <main className="content-area">
-          <h2>Featured Students</h2>
-          <div className="student-grid">
-            <StudentCard 
-              name="Jane Doe" 
-              major="Computer Science" 
-              gpa="3.9" 
-              isActive={true}
-              avatarUrl="https://placeholder.com"
-            />
-            <StudentCard 
-              name="John Smith" 
-              major="Data Science" 
-              gpa="3.7" 
-              isActive={false}
-              avatarUrl="https://placeholder.com"
-            />
-          </div>
-        </main>
-      </div>
-      
-      <Footer />
-    </div>
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
-
-export default App;
-*/
-
-import Header from './components/Header';
-import Hero from './components/Hero';
-import FeatureGrid from './components/FeatureGrid';
-import Footer from './components/Footer';
-import  Profile  from './components/profile';
-
-function App() {
-  return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <main>
-        <Hero />
-        <Profile />
-        <FeatureGrid />
-      </main>
-      <Footer />
-    </div>
-  );
-}
-
-export default App;

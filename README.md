@@ -1,16 +1,35 @@
-# React + Vite
+# QuizMaster
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fully functional quiz application built with React 19 and Vite. Features user authentication, a timed quiz with 7 trivia questions, and detailed results.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 19** — Functional components with Hooks
+- **Vite 8** — Build tool and dev server
+- **Plain CSS** — Single global stylesheet (`src/App.css`)
+- **localStorage** — Persistent user data and session management
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **User Authentication** — Register and login with email/password; session persists across page refreshes
+- **Dashboard** — Welcome message, quiz instructions, and a Start Quiz button
+- **Timed Quiz** — 7 multiple-choice questions, 30 seconds per question, auto-advance on timeout
+- **Answer Feedback** — Correct/incorrect highlighting with checkmark and cross icons
+- **Results** — Final score, percentage, total time spent, and performance grade
+- **Responsive** — Works on mobile and desktop
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+Open the URL shown in the terminal (default `http://localhost:5173`).
+
+## Build
+
+```bash
+npm run build
+npm run preview
+```
